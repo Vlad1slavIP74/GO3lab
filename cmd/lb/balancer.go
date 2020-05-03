@@ -10,8 +10,8 @@ import (
 	"time"
 	"hash/fnv"
 
-	"github.com/roman-mazur/design-practice-3-template/httptools"
-	"github.com/roman-mazur/design-practice-3-template/signal"
+	"github.com/Vlad1slavIP74/GO3lab/httptools"
+	"github.com/Vlad1slavIP74/GO3lab/signal"
 )
 
 var (
@@ -19,7 +19,7 @@ var (
 	timeoutSec = flag.Int("timeout-sec", 3, "request timeout time in seconds")
 	https = flag.Bool("https", false, "whether backends support HTTPs")
 
-	traceEnabled = flag.Bool("trace", false, "whether to include tracing information into responses")
+	traceEnabled = flag.Bool("trace", true, "whether to include tracing information into responses")
 )
 
 var (
@@ -59,7 +59,7 @@ func forward(dst string, rw http.ResponseWriter, r *http.Request) error {
 	fwdRequest.URL.Host = dst
 	fwdRequest.URL.Scheme = scheme()
 	fwdRequest.Host = dst
-	log.Printf("Server: %s", dst)
+	log.Println("Server: ", dst)
 	resp, err := http.DefaultClient.Do(fwdRequest)
 	if err == nil {
 		for k, values := range resp.Header {
@@ -112,7 +112,7 @@ func main() {
 	frontend := httptools.CreateServer(*port, http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		// TODO: Рееалізуйте свій алгоритм балансувальника.
 		serverIndex := clientHashAddress(r.RemoteAddr, len(serversPool))
-		log.Printf(serverIndex)
+		log.Printf(string(serverIndex))
 		forward(serversPool[serverIndex], rw, r)
 	}))
 

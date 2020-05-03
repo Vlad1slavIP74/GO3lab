@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"time"
+	"hash/fnv"
 
 	"github.com/roman-mazur/design-practice-3-template/httptools"
 	"github.com/roman-mazur/design-practice-3-template/signal"
@@ -58,7 +59,7 @@ func forward(dst string, rw http.ResponseWriter, r *http.Request) error {
 	fwdRequest.URL.Host = dst
 	fwdRequest.URL.Scheme = scheme()
 	fwdRequest.Host = dst
-
+	log.Printf("Server: %s", dst)
 	resp, err := http.DefaultClient.Do(fwdRequest)
 	if err == nil {
 		for k, values := range resp.Header {
@@ -84,6 +85,17 @@ func forward(dst string, rw http.ResponseWriter, r *http.Request) error {
 	}
 }
 
+func hash(s string) int {
+	h := fnv.New32a()
+	h.Write([]byte(s))
+	return int(h.Sum32())
+}
+
+
+func clientHashAddress (address string, len int) int {
+	return hash(address) % len
+}
+
 func main() {
 	flag.Parse()
 
@@ -99,7 +111,9 @@ func main() {
 
 	frontend := httptools.CreateServer(*port, http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		// TODO: Рееалізуйте свій алгоритм балансувальника.
-		forward(serversPool[0], rw, r)
+		serverIndex := clientHashAddress(r.RemoteAddr, len(serversPool))
+		log.Printf(serverIndex)
+		forward(serversPool[serverIndex], rw, r)
 	}))
 
 	log.Println("Starting load balancer...")

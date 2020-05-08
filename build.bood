@@ -19,6 +19,11 @@ go_binary {
     "cmd/lb/*.go"
   ]
   // TODO: Додайте запуск тестів для балансувальника.
+   testPkg:"github.com/Vlad1slavIP74/GO3lab/build/cmd/lb"
 }
-
 // TODO: Додайте модуль для інтеграційних тестів.
+go_binary {
+  name: "integration",
+  testPkg: "github.com/Vlad1slavIP74/GO3lab/integration",
+  outTestFile: "test.txt",
+}

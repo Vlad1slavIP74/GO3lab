@@ -9,25 +9,28 @@ import (
 	"net/http"
 	"time"
 	"hash/fnv"
+	"errors"
+
 
 	"github.com/Vlad1slavIP74/GO3lab/httptools"
 	"github.com/Vlad1slavIP74/GO3lab/signal"
 )
+
 
 var (
 	port = flag.Int("port", 8090, "load balancer port")
 	timeoutSec = flag.Int("timeout-sec", 3, "request timeout time in seconds")
 	https = flag.Bool("https", false, "whether backends support HTTPs")
 
-	traceEnabled = flag.Bool("trace", true, "whether to include tracing information into responses")
+	traceEnabled = flag.Bool("trace", false, "whether to include tracing information into responses")
 )
 
 var (
 	timeout = time.Duration(*timeoutSec) * time.Second
-	serversPool = []string{
-		"server1:8080",
-		"server2:8080",
-		"server3:8080",
+	serversPool = map[string]bool {
+		"server1:8080": true,
+		"server2:8080": true,
+		"server3:8080": true,
 	}
 )
 
@@ -59,7 +62,7 @@ func forward(dst string, rw http.ResponseWriter, r *http.Request) error {
 	fwdRequest.URL.Host = dst
 	fwdRequest.URL.Scheme = scheme()
 	fwdRequest.Host = dst
-	log.Println("Server: ", dst)
+
 	resp, err := http.DefaultClient.Do(fwdRequest)
 	if err == nil {
 		for k, values := range resp.Header {
@@ -68,6 +71,7 @@ func forward(dst string, rw http.ResponseWriter, r *http.Request) error {
 			}
 		}
 		if *traceEnabled {
+			fmt.Println(dst, "ffnsdajnfljkdsanfkljs")
 			rw.Header().Set("lb-from", dst)
 		}
 		log.Println("fwd", resp.StatusCode, resp.Request.URL)
@@ -91,29 +95,51 @@ func hash(s string) int {
 	return int(h.Sum32())
 }
 
+func addressHash(servers map[string]bool, clientAddress string) (string, error) {
+	if (clientAddress == "") {
+		return "", errors.New("BAD ADDRESS")
+	}
 
-func clientHashAddress (address string, len int) int {
-	return hash(address) % len
+	var availableServers []string
+
+	for server, isAvailable := range servers {
+		if isAvailable {
+			availableServers = append(availableServers, server)
+		}
+	}
+
+
+	if len(availableServers) == 0 {
+		return "", errors.New("ALL SERVERS ARE NOT HEALTH")
+	}
+
+	checksum := hash(clientAddress)
+	serverIndex := checksum % len(availableServers)
+	availableServer := availableServers[serverIndex]
+	return availableServer, nil
 }
 
 func main() {
 	flag.Parse()
 
-	// TODO: Використовуйте дані про стан сервреа, щоб підтримувати список тих серверів, яким можна відправляти ззапит.
-	for _, server := range serversPool {
+	for server := range serversPool {
 		server := server
 		go func() {
 			for range time.Tick(10 * time.Second) {
 				log.Println(server, health(server))
+				serversPool[server] = health(server)
 			}
 		}()
 	}
 
 	frontend := httptools.CreateServer(*port, http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
-		// TODO: Рееалізуйте свій алгоритм балансувальника.
-		serverIndex := clientHashAddress(r.RemoteAddr, len(serversPool))
-		log.Printf(string(serverIndex))
-		forward(serversPool[serverIndex], rw, r)
+		targetServer, err := addressHash(serversPool, r.Header.Get("X-Forwarded-For"))
+		if err != nil {
+			log.Println(err)
+			rw.WriteHeader(http.StatusServiceUnavailable)
+		} else {
+			forward(targetServer, rw, r)
+		}
 	}))
 
 	log.Println("Starting load balancer...")

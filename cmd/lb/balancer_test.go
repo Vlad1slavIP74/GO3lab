@@ -22,7 +22,7 @@ func TestWhenOneServerOn(t *testing.T) {
 		"server2:8080": false,
 		"server3:8080": false,
 	}, "192.168.116.16")
-	assert.Equal(t, server, "server1:8080", "Wrong url")
+	assert.Equal(t, server, "server1:8080", "BAD ADDRESS")
 }
 
 func TestForDifferentHash(t *testing.T) {

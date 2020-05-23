@@ -3,7 +3,7 @@ module github.com/Vlad1slavIP74/GO3lab
 go 1.14
 
 require (
-	github.com/Vlad1slavIP74/2lab v0.0.0-20200415175950-1a8200ad2352 // indirect
+	github.com/Vlad1slavIP74/2lab v0.0.0-20200523171559-44abc52444b7 // indirect
 	github.com/stretchr/testify v1.5.1
 )
 

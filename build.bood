@@ -24,5 +24,6 @@ go_binary {
 // TODO: Додайте модуль для інтеграційних тестів.
 go_binary {
   name: "integration",
-  testPkg: "github.com/Vlad1slavIP74/GO3lab/integration"
+  testPkg: "github.com/Vlad1slavIP74/GO3lab/integration",
+  outTestFile: "test.txt"
 }

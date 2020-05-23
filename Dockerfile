@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y ninja-build
 
 RUN go get -u github.com/Vlad1slavIP74/2lab/build/cmd/bood
 
-WORKDIR /go/src/practice-3
+WORKDIR /go/src/practice-3/
 COPY . .
 
 RUN CGO_ENABLED=0 bood

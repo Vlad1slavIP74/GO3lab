@@ -9,4 +9,4 @@ COPY . .
 
 
 # TODO: Замініть на запуск bood, який призводить до виконання інтеграційних тестів.
-ENTRYPOINT ["./integration-tests.sh"]
+#ENTRYPOINT ["./integration-tests.sh"]

@@ -21,14 +21,3 @@ go_binary {
   ],
    testPkg:"github.com/Vlad1slavIP74/GO3lab/build/cmd/lb"
 }
-go_binary {
-  name: "integration",
-  pkg: "github.com/Vlad1slavIP74/GO3lab/cmd/lb",
-  outTestFile: "integration.txt",
-  testPkg: "github.com/Vlad1slavIP74/GO3lab/integration",
-    srcs: [
-    "httptools/**/*.go",
-    "signal/**/*.go",
-    "cmd/integration/*.go"
-  ],
-}

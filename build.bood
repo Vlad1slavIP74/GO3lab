@@ -1,7 +1,8 @@
 go_binary {
   name: "server",
-  // TODO: Відкорегуйте ім'я пакета.
+  outTestFile: "server.txt",
   pkg: "github.com/Vlad1slavIP74/GO3lab/cmd/server",
+  testPkg: "github.com/Vlad1slavIP74/GO3lab/cmd/server",
   srcs: [
     "httptools/**/*.go",
     "signal/**/*.go",
@@ -11,18 +12,23 @@ go_binary {
 
 go_binary {
   name: "lb",
-  // TODO: Відкорегуйте ім'я пакета.
   pkg: "github.com/Vlad1slavIP74/GO3lab/cmd/lb",
+  outTestFile: "lb.txt",
   srcs: [
     "httptools/**/*.go",
     "signal/**/*.go",
     "cmd/lb/*.go"
   ],
-  // TODO: Додайте запуск тестів для балансувальника.
    testPkg:"github.com/Vlad1slavIP74/GO3lab/build/cmd/lb"
 }
-// TODO: Додайте модуль для інтеграційних тестів.
 go_binary {
   name: "integration",
-  testPkg: "github.com/Vlad1slavIP74/GO3lab/integration"
+  pkg: "github.com/Vlad1slavIP74/GO3lab/cmd/lb",
+  outTestFile: "integration.txt",
+  testPkg: "github.com/Vlad1slavIP74/GO3lab/integration",
+    srcs: [
+    "httptools/**/*.go",
+    "signal/**/*.go",
+    "cmd/integration/*.go"
+  ],
 }

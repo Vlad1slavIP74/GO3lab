@@ -14,10 +14,10 @@ go_binary {
   name: "lb",
   pkg: "github.com/Vlad1slavIP74/GO3lab/cmd/lb",
   outTestFile: "lb.txt",
+   testPkg:"github.com/Vlad1slavIP74/GO3lab/build/cmd/lb",
   srcs: [
     "httptools/**/*.go",
     "signal/**/*.go",
     "cmd/lb/*.go"
-  ],
-   testPkg:"github.com/Vlad1slavIP74/GO3lab/build/cmd/lb"
+  ]
 }

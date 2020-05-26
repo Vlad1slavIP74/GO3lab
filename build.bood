@@ -31,7 +31,7 @@ go_binary {
     "signal/**/*.go",
     "cmd/lb/*.go"
   ],
-  testPkg: "github.com/Vlad1slavIP74/GO3lab/integration",
+  testPkg: "github.com/Vlad1slavIP74/GO3lab/cmd/integration",
   outTestFile: "test.txt"
 }
 

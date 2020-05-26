@@ -23,16 +23,4 @@ go_binary {
 }
 // TODO: Додайте модуль для інтеграційних тестів.
 
-/*
-go_binary {
-  name: "integration",
-  pkg: "github.com/Vlad1slavIP74/GO3lab/cmd/integration",  
-  srcs: [
-    "httptools/**/*.go",
-    "signal/**/*.go",
-    "cmd/lb/*.go"
-  ],
-  testPkg: "github.com/Vlad1slavIP74/GO3lab/integration",
-  outTestFile: "test.txt"
-}
-*/
+

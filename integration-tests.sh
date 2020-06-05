@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
-cd ./integration || return
-CGO_ENABLED=0 bood
+bood out/bin/test.txt
+cat out/bin/test.txt

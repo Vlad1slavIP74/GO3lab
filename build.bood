@@ -1,9 +1,10 @@
 go_binary {
   name: "server",
   pkg: "./cmd/server",
+  testPkg: "./cmd/server",
   srcs: [
-    "httptools/**/*.go",
-    "signal/**/*.go",
+    "httptools/*.go",
+    "signal/*.go",
     "cmd/server/*.go"
   ],
   srcsExclude: ["**/*_test.go"]
@@ -12,23 +13,23 @@ go_binary {
 go_binary {
   name: "lb",
   pkg: "./cmd/lb",
+   testPkg:"./cmd/lb",
+    outTestFile:"lb.txt",
   srcs: [
-    "httptools/**/*.go",
-    "signal/**/*.go",
+    "httptools/*.go",
+    "signal/*.go",t
     "cmd/lb/*.go"
   ],
-  testPkg:"./cmd/lb"
+srcsExclude:["**/*_test.go"]
 }
 
 go_binary {
   name: "integration",
   pkg: "./integration",
-  srcs: [
-    "httptools/**/*.go",
-    "signal/**/*.go",
-    "cmd/lb/*.go"
-  ],
-  testPkg: "./integration",
-  outTestFile: "test.txt"
+    testPkg: "./integration",
+  outTestFile: "test.txt",
+  srcs: [],
+    srcsExclude: ["**/*_test.go"]
 }
+
 

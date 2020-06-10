@@ -17,7 +17,7 @@ go_binary {
     outTestFile:"lb.txt",
   srcs: [
     "httptools/*.go",
-    "signal/*.go",te
+    "signal/*.go",
     "cmd/lb/*.go"
   ],
 srcsExclude:["**/*_test.go"]

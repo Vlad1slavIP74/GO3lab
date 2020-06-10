@@ -1,0 +1,4 @@
+go_binary {
+  name: "integration",
+  testPkg: "github.com/Vlad1slavIP74/GO3lab/integration"
+}

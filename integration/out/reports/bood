@@ -1,0 +1,8 @@
+=== RUN   TestBalancer
+    TestBalancer: balancer_test.go:24: Get "http://balancer:8090/api/v1/some-data": dial tcp: lookup balancer: no such host
+    TestBalancer: balancer_test.go:33: Get "http://balancer:8090/api/v1/some-data": dial tcp: lookup balancer: no such host
+    TestBalancer: balancer_test.go:42: Get "http://balancer:8090/api/v1/some-data": dial tcp: lookup balancer: no such host
+--- FAIL: TestBalancer (0.06s)
+FAIL
+FAIL	github.com/Vlad1slavIP74/GO3lab/integration	0.061s
+FAIL

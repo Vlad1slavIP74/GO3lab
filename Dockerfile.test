@@ -8,5 +8,4 @@ WORKDIR /go/src/practice-3
 COPY . .
 
 RUN ["chmod", "+x", "./integration-test.sh"]
-RUN ["chmod", "+x", "./usr/bin/foxx"]
 ENTRYPOINT ["./integration-test.sh"]
